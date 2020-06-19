@@ -412,6 +412,7 @@ namespace VirtoCommerce.Storefront
             var mvcJsonOptions = app.ApplicationServices.GetService<IOptions<MvcNewtonsoftJsonOptions>>().Value;
             mvcJsonOptions.SerializerSettings.Converters.Add(new CartTypesJsonConverter(app.ApplicationServices.GetService<IWorkContextAccessor>()));
             mvcJsonOptions.SerializerSettings.Converters.Add(new MoneyJsonConverter(app.ApplicationServices.GetService<IWorkContextAccessor>()));
+            mvcJsonOptions.SerializerSettings.Converters.Add(new LanguageJsonConverter());
             mvcJsonOptions.SerializerSettings.Converters.Add(new CurrencyJsonConverter(app.ApplicationServices.GetService<IWorkContextAccessor>()));
             mvcJsonOptions.SerializerSettings.Converters.Add(new OrderTypesJsonConverter(app.ApplicationServices.GetService<IWorkContextAccessor>()));
             mvcJsonOptions.SerializerSettings.Converters.Add(new RecommendationJsonConverter(app.ApplicationServices.GetService<IRecommendationProviderFactory>()));

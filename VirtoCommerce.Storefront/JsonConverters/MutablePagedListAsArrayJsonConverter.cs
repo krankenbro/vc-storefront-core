@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using VirtoCommerce.Storefront.Model;
 using VirtoCommerce.Storefront.Model.Common;
 
 namespace VirtoCommerce.Storefront.JsonConverters
@@ -42,9 +41,10 @@ namespace VirtoCommerce.Storefront.JsonConverters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             serializer = JsonSerializer.Create(_jsonSettings);
-            var mutablePagedListType = typeof(MutablePagedList<>).MakeGenericType(objectType.GetGenericArguments()[0]);
+            var itemsType = objectType.GetGenericArguments()[0];
+            var mutablePagedListType = typeof(MutablePagedList<>).MakeGenericType(itemsType);
             var jsonArray = JToken.ReadFrom(reader);
-            var enumerable = jsonArray.ToObject(typeof(DynamicProperty[]), serializer) as IEnumerable<DynamicProperty>;
+            var enumerable = jsonArray.ToObject(typeof(List<>).MakeGenericType(itemsType), serializer);
             var result = Activator.CreateInstance(mutablePagedListType, enumerable);
             return result;
         }
