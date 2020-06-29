@@ -14,9 +14,9 @@ namespace VirtoCommerce.Storefront.Model.Features
             _featuresBranchToken = featuresBranchToken;
         }
 
-        public bool IsActive(string featureName, IDictionary<string, object> settings)
+        public bool IsActive(string featureName, JObject jObject)
         {
-            var features = GetFeatures(settings);
+            var features = GetFeatures(jObject);
 
             var feature = features.GetFeature(featureName);
 
@@ -42,13 +42,13 @@ namespace VirtoCommerce.Storefront.Model.Features
             return result;
         }
 
-        private List<Feature> GetFeatures(IDictionary<string, object> settings)
+        private List<Feature> GetFeatures(JObject jObject)
         {
             List<Feature> result;
 
             try
             {
-                var featuresJson = settings[_featuresBranchToken] as JArray;
+                var featuresJson = jObject[_featuresBranchToken];
 
                 if (featuresJson == null)
                 {
